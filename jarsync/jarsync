@@ -21,6 +21,41 @@
 #    Boston, MA  02111-1307
 #    USA
 
+resolve_path() {
+    local RPATH
+
+#    RPATH=`realpath $1 2>/dev/null`
+#    if [ $? -eq 0 ]; then
+#        echo $RPATH
+#        exit 0
+#    fi
+#
+#    RPATH=`grealpath $1 2>/dev/null`
+#    if [ $? -eq 0 ]; then
+#        echo $RPATH
+#        exit 0
+#    fi
+#    echo "one=$?"
+
+    LAST="$0"
+    RPATH=`readlink $LAST`
+    if [ $? -ne 0 ] && [ $? -ne 1 ]; then
+        exit 1
+    fi
+    if [ -z "$RPATH" ]; then
+        echo $0
+        exit 0
+    fi
+
+    while [ -n "$RPATH" ]; do
+        LAST=$RPATH
+        RPATH=`readlink $LAST`
+    done
+
+    echo $LAST
+    exit 0
+}
+
 JAVAOPTS=
 APPOPTS=
 for OPT in "$@"; do
@@ -30,4 +65,19 @@ for OPT in "$@"; do
   esac
 done
 
-exec java $JAVAOPTS -cp $CLASSPATH:target/jarsync.jar org.metastatic.rsync.v2.Client $APPOPTS
+DIR=`resolve_path $0`
+if [ -z "$DIR" ]; then
+    DIR="$0"
+fi
+DIR=`dirname $DIR`
+JAR="$DIR/target/jarsync-jar-with-dependencies.jar"
+
+if [ ! -f $JAR ]; then
+    JAR="$DIR/jarsync-jar-with-dependencies.jar"
+fi
+if [ ! -f $JAR ]; then
+    echo "cannot find jarsync-jar-with-dependencies.jar"
+fi
+
+exec java -Djarsync.rsh=/usr/bin/ssh $JAVAOPTS -jar $JAR $APPOPTS
+

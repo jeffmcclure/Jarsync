@@ -584,8 +584,7 @@ public class Client
         ret = 1;
       } else
       {
-        logger.addAppender(new ConsoleAppender(new PatternLayout(PROGNAME
-            + ": %m%n")));
+        logger.addAppender(new ConsoleAppender(new PatternLayout(PROGNAME + ": %m%n")));
         if (options.verbose == 0)
           logger.setLevel(Level.WARN);
         else if (options.verbose == 1)

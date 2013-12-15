@@ -38,6 +38,8 @@ import java.io.PrintStream;
 
 import gnu.getopt.Getopt;
 import gnu.getopt.LongOpt;
+import java.text.SimpleDateFormat;
+import org.metastatic.rsync.Version;
 
 public class Options {
 
@@ -521,7 +523,7 @@ public class Options {
   }
 
   public static void help(String progname, PrintStream out) {
-    out.println(progname + "  (Jarsync " + org.metastatic.rsync.version.VERSION + ")  protocol version " + Constants.PROTOCOL_VERSION);
+    out.println(progname + "  (Jarsync " + org.metastatic.rsync.Version.VERSION + ")  protocol version " + Constants.PROTOCOL_VERSION + ", compiled " + new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Version.BUILD_DATE));
     out.println("Copyright (C) 2003  Casey Marshall <rsdio@metastatic.org>");
     out.println("<http://jarsync.sourceforge.net/>");
     out.println();
@@ -609,7 +611,7 @@ public class Options {
   }
 
   public static void version(String progname, PrintStream out) {
-    out.print(progname + " (Jarsync " + org.metastatic.rsync.version.VERSION + ")  ");
+    out.print(progname + " (Jarsync " + Version.VERSION + ")  ");
     out.print("Java version " + System.getProperty("java.version") + " (");
     try
       {
@@ -623,7 +625,7 @@ public class Options {
         out.print("ssl");
       }
     catch (Exception x) { }
-    out.println(")");
+    out.println("), compiled " + new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Version.BUILD_DATE));
     out.println("Copyright (C) 2003  Casey Marshall <rsdio@metastatic.org>");
     out.println();
     out.println("Jarsync comes with NO WARRANTY, to the extent permitted by law.");

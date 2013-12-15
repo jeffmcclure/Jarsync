@@ -1161,7 +1161,7 @@ public class Rdiff
    */
   private static void version(PrintStream out)
   {
-    out.println(PROGNAME + " (Jarsync " + version.VERSION + ")");
+    out.println(PROGNAME + " (Jarsync " + Version.VERSION + ")");
     out.println("Copyright (C) 2002, 2007 Casey Marshall.");
     out.println();
     out.println("Jarsync comes with NO WARRANTY, to the extent permitted by law.");

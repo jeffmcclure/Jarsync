@@ -53,12 +53,38 @@ NOT licensed under.  */
 
 package org.metastatic.rsync;
 
-public interface version {
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Properties;
+
+public class Version {
 
    // Constants.
    // -----------------------------------------------------------------------
 
-   public static final String VERSION = "PRERELEASE (svn )";
+   public static final String VERSION;
+   public static final Date BUILD_DATE;
+   
 
-   public static final double VERSION_DOUBLE = 0.500;
+   //public static final double VERSION_DOUBLE = 0.500;
+   
+    static {
+        // default values in case there is an error
+        String ver = "UNKNOWN";
+        Date buildDate = new Date(0L);
+        
+        try {
+            InputStream in = Version.class.getResourceAsStream("/jarsync-version.properties");
+            Properties props = new Properties();
+            props.load(in);
+            ver = props.getProperty("version");
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            buildDate = sdf.parse(props.getProperty("buildDate"));
+        } catch (Exception e) {
+        }
+        VERSION = ver;
+        BUILD_DATE = buildDate;
+    }
+   
 }

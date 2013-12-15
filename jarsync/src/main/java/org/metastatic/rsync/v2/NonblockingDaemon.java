@@ -41,7 +41,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.metastatic.rsync.version;
+import org.metastatic.rsync.Version;
 
 public class NonblockingDaemon extends Daemon
 {
@@ -100,7 +100,7 @@ public class NonblockingDaemon extends Daemon
         logger.fatal("could not bind server: " + ioe);
         return;
       }
-    logger.info("jarsyncd version " + version.VERSION + " listening on port "
+    logger.info("jarsyncd version " + Version.VERSION + " listening on port "
         + port);
 
     String motd = "";
